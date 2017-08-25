@@ -1,0 +1,3 @@
+subprocess_cpp
+*.o
+*.d
