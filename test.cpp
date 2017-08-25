@@ -155,15 +155,6 @@ public:
         assert (pid > 0);
     }
 
-    void child_routine(string const &cmd) {
-        output.as_stdout();
-        error.as_stderr();
-
-        execlp("/bin/sh", "sh", "-c", cmd.c_str(), nullptr);
-
-        assert (false); // not reachable
-    }
-
     void communicate(string &out, string &err) {
         readers.push_back(new posix::pipe::async::Reader(output, out));
         readers.push_back(new posix::pipe::async::Reader(error, err));
@@ -185,6 +176,16 @@ public:
             delete reader;
         }
         readers.clear();
+    }
+
+private:
+    void child_routine(string const &cmd) {
+        output.as_stdout();
+        error.as_stderr();
+
+        execlp("/bin/sh", "sh", "-c", cmd.c_str(), nullptr);
+
+        assert (false); // not reachable
     }
 
 private:
